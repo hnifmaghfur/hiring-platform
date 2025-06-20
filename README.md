@@ -77,6 +77,39 @@ Visit `http://localhost:3000/api` for Swagger documentation after starting the s
 
 ---
 
+## Application Lifecycle
+
+The following outlines the end-to-end workflow of the Hiring Platform, highlighting the main actors and system automations:
+
+1. **Job Post Creation**  _(Company)_
+   - Companies create and publish job posts with details, requirements, and an expiration date.
+
+2. **Job Discovery & Application**  _(Candidate)_
+   - Candidates browse active job posts and submit applications.
+   - The system tracks each application's status: `pending`, `interview`, `accepted`, or `rejected`.
+
+3. **Application Review & Interview Scheduling**  _(Company)_
+   - Companies review incoming applications.
+   - Selected candidates are invited to interviews (scheduled by company via the platform).
+   - Candidates are notified of interview details (date, time, location/link) via in-app notification and email.
+
+4. **Interview Process**  _(Candidate & Company)_
+   - Candidates attend interviews as scheduled (onsite or online).
+
+5. **Result & Decision**  _(Company & System)_
+   - Companies record interview results (pass/fail, with optional notes).
+   - The system automatically:
+     - Updates the application status (`accepted` or `rejected`).
+     - Notifies candidates of the result via notification and email.
+     - If accepted, related job post can be set to nonactive (filled/closed).
+
+6. **Automated Job Post Expiry**  _(System)_
+   - A daily cron job checks for expired job posts and marks them as `expired` and `nonactive`.
+
+This workflow ensures a seamless, automated hiring process for both companies and candidates, with clear touchpoints and timely communication throughout.
+
+---
+
 ## Folder Structure
 
 ```
