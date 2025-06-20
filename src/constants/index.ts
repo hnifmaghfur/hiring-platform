@@ -10,6 +10,21 @@ export const APP_CONFIG = {
   APP_VERSION: process.env.APP_VERSION || '1.0.0',
 } as const;
 
+// type akun
+export const TYPE_ACCOUNT = {
+  CANDIDATE: 'candidate',
+  COMPANY: 'company',
+} as const;
+
+export function getRoleId(role: string): number | undefined {
+  if (role === TYPE_ACCOUNT.CANDIDATE) return 1;
+  if (role === TYPE_ACCOUNT.COMPANY) return 2;
+  return undefined;
+}
+
+// constants untuk url upload pdf
+export const PDF_URL = process.env.UPLOAD_PDF_URL;
+
 // Constants untuk database
 export const DATABASE_CONFIG = {
   HOST: process.env.DB_HOST,
@@ -46,8 +61,7 @@ export const CORS_CONFIG = {
   ORIGIN: process.env.CORS_ORIGIN || '*',
   METHODS: process.env.CORS_METHODS || 'GET,HEAD,PUT,PATCH,POST,DELETE',
   CREDENTIALS: process.env.CORS_CREDENTIALS === 'true',
-} as const;
-
+};
 // Constants untuk rate limiting
 export const RATE_LIMIT_CONFIG = {
   TTL: Number(process.env.RATE_LIMIT_TTL) || 60,
@@ -93,6 +107,15 @@ export const MIGRATION_CONFIG = {
   migrationsTableName: 'migration_table',
 };
 
+// Mail config
+export const MAIL_CONFIG = {
+  HOST: process.env.BREVO_SMTP_HOST,
+  PORT: Number(process.env.BREVO_SMTP_PORT),
+  USER: process.env.BREVO_SMTP_USER,
+  KEY: process.env.BREVO_SMTP_KEY,
+  FROM: process.env.MAIL_FROM,
+} as const;
+
 // Export semua config dalam satu object (opsional)
 export const CONFIG = {
   APP: APP_CONFIG,
@@ -102,6 +125,7 @@ export const CONFIG = {
   RATE_LIMIT: RATE_LIMIT_CONFIG,
   UPLOAD: UPLOAD_CONFIG,
   MIGRATION: MIGRATION_CONFIG,
+  MAIL: MAIL_CONFIG,
 } as const;
 
 // Types untuk type safety
@@ -112,3 +136,4 @@ export type JwtConfig = typeof JWT_CONFIG;
 export type CorsConfig = typeof CORS_CONFIG;
 export type RateLimitConfig = typeof RATE_LIMIT_CONFIG;
 export type UploadConfig = typeof UPLOAD_CONFIG;
+export type MailConfig = typeof MAIL_CONFIG;

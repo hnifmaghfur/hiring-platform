@@ -1,98 +1,157 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Hiring Platform API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A modern, scalable hiring platform built with [NestJS](https://nestjs.com/), TypeORM, and PostgreSQL. It supports company and candidate management, job postings, interview scheduling, notifications, and more.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## Folder & Module Pattern
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This project follows a **modular folder structure** inspired by best practices in NestJS and scalable backend development:
 
-## Project setup
+- **`src/common/`**: Contains shared utilities and services (e.g., mailer, logger, cron jobs, Redis) that are used across multiple modules.
+- **`src/models/`**: Each business domain (such as `auth`, `candidate`, `company`, `interview`, `job-post`, `application`, `notification`) is organized as a separate module. Each module typically contains:
+  - `entities/`: TypeORM entity definitions for database tables
+  - `dto/`: Data Transfer Objects for validation and API contracts
+  - `service.ts`: Business logic
+  - `controller.ts`: API endpoints
+  - `module.ts`: Module declaration for dependency injection
 
+This structure:
+- Promotes separation of concerns and code reusability
+- Makes it easy to maintain, test, and scale the application
+- Allows teams to work independently on different modules without conflicts
+
+---
+
+## Features
+
+- **Authentication & Authorization**: JWT-based, with role support for candidates and companies.
+- **Job Posts**: Companies can create, update, and expire job posts (with automatic cron for expiry).
+- **Applications**: Candidates apply to jobs and track their status.
+- **Interview Scheduling**: Companies schedule interviews; candidates can view their interview schedule.
+- **Interview Results**: Companies update interview results, triggering notifications and emails.
+- **Notifications**: Candidates receive in-app notifications and email updates.
+- **Cron Jobs**: Automated job post expiry based on set dates.
+- **Clean API**: RESTful endpoints, DTO validation, and Swagger documentation.
+
+---
+
+## Entity Relationship Diagram (ERD)
+
+![ERD](./docs/erd.png)
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v16+ recommended)
+- PostgreSQL
+
+### Installation
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+### Environment Setup
+Copy `.env.example` to `.env` and fill in your database, JWT, and mail settings.
 
+### Running the App
 ```bash
 # development
-$ npm run start
+yarn start:dev
+# or
+npm run start:dev
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+# production
+npm run start:prod
 ```
 
-## Run tests
-
+### Database Migrations
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run typeorm migration:run
 ```
 
-## Deployment
+### API Docs
+Visit `http://localhost:3000/api` for Swagger documentation after starting the server.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Folder Structure
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
 ```
+src/
+  common/                   # Shared utilities and cross-cutting concerns
+    app-logger.ts           # Custom logger service
+    cron/                   # Scheduled/cron jobs (e.g., jobpost expiry)
+    mail/                   # Email service and templates
+    redis.service.ts        # Redis caching service
+  models/                   # Main business logic and domain modules
+    application/            # Job application logic
+      entities/             # TypeORM entities for applications
+      dto/                  # Data Transfer Objects for validation
+      application.service.ts
+      application.controller.ts
+      application.module.ts
+    auth/                   # Authentication logic
+      auth.service.ts
+      auth.controller.ts
+      auth.module.ts
+      guards/               # Auth guards (e.g., JWT)
+    candidate/              # Candidate user logic
+      entities/
+      dto/
+      candidate.service.ts
+      candidate.controller.ts
+      candidate.module.ts
+    company/                # Company user logic
+      entities/
+      dto/
+      company.service.ts
+      company.controller.ts
+      company.module.ts
+    interview/              # Interview scheduling and results
+      entities/
+      dto/
+      interview.service.ts
+      interview.controller.ts
+      interview.module.ts
+    job-post/               # Job posting logic
+      entities/
+      dto/
+      job-post.service.ts
+      job-post.controller.ts
+      job-post.module.ts
+    notification/           # Notification logic
+      entities/
+      dto/
+      notification.service.ts
+      notification.controller.ts
+      notification.module.ts
+```
+- Each module typically includes: `entities/` (ORM models), `dto/` (validation), service, controller, and module files.
+- The `common/` folder contains shared services (mail, cron, logger, redis, etc.) used across modules.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## Contributing
+Pull requests are welcome! Please open issues for suggestions or bugs.
 
-Check out a few resources that may come in handy when working with NestJS:
+---
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Contributors
 
-## Support
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/46650073?v=4" width="100" alt="Hanif Maghfur"/><br/>
+      <b>Hanif Maghfur</b><br/>
+      <sub>Creator & Main Developer</sub>
+    </td>
+  </tr>
+</table>
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
 ## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+MIT

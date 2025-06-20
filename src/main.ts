@@ -6,12 +6,17 @@ import { CustomLogger } from './common/app-logger';
 import { APP_CONFIG, CORS_CONFIG } from './constants';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-// import { Request } from 'express';
+
+import * as express from 'express';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new CustomLogger(),
   });
+  // Serve static files from /uploads
+  console.log('Serving uploads from:', join(process.cwd(), 'uploads'));
+  app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
 
   // Global prefix
   app.setGlobalPrefix(APP_CONFIG.API_PREFIX);
@@ -30,12 +35,6 @@ async function bootstrap() {
     methods: CORS_CONFIG.METHODS,
     credentials: CORS_CONFIG.CREDENTIALS,
   });
-
-  // // Log request body
-  // app.use((req: Request, res, next) => {
-  //   console.log(`[${req.method}] ${req.originalUrl} :`, req);
-  //   next();
-  // });
 
   // Global validation pipe
   app.useGlobalPipes(

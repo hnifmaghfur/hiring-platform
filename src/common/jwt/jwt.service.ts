@@ -1,13 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JWT_CONFIG } from '../../constants';
+import { getRoleId, JWT_CONFIG } from '../../constants';
 
 @Injectable()
 export class AppJwtService {
   constructor(private readonly jwtService: JwtService) {}
 
-  generateToken(user: any) {
-    const payload = { sub: user.id, username: user.email };
+  generateToken(user: any, type: string) {
+    const payload = {
+      sub: user.id,
+      username: user.email,
+      role: getRoleId(type),
+    };
     return this.jwtService.sign(payload, {
       expiresIn: '1h',
     });

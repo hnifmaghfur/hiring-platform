@@ -8,8 +8,8 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME || 'myuser',
   password: process.env.DB_PASSWORD || 'mypassword',
   database: process.env.DB_NAME || 'hiring_platform',
-  entities: ['src/**/*.entity.{ts,js}'],
-  migrations: ['src/database/migration/*.{ts,js}'],
+  entities: ['dist/**/*.entity.{ts,js}'],
+  migrations: ['dist/database/migration/*.{ts,js}'],
   migrationsTableName: 'migration',
 });
 
