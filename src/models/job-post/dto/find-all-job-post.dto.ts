@@ -19,19 +19,19 @@ export class FindAllJobPostDto {
 
   @ApiPropertyOptional({
     description: 'Minimum salary',
-    type: Number,
+    type: String,
   })
   @IsOptional()
-  @IsNumber()
-  minSalary?: number;
+  @IsString()
+  minSalary?: string;
 
   @ApiPropertyOptional({
     description: 'Maximum salary',
-    type: Number,
+    type: String,
   })
   @IsOptional()
-  @IsNumber()
-  maxSalary?: number;
+  @IsString()
+  maxSalary?: string;
 
   @ApiPropertyOptional({
     description: 'Filter by company ID',
@@ -42,7 +42,7 @@ export class FindAllJobPostDto {
 
   @ApiPropertyOptional({
     description: 'Page number (1-based)',
-    type: Number,
+    type: String,
     default: 1,
   })
   @IsString()
@@ -50,7 +50,7 @@ export class FindAllJobPostDto {
 
   @ApiPropertyOptional({
     description: 'Number of items per page',
-    type: Number,
+    type: String,
     default: 10,
     maximum: 100,
   })

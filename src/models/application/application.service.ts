@@ -35,8 +35,6 @@ export class ApplicationService {
     private readonly redisService: RedisService,
     @InjectRepository(Company)
     private readonly companyRepository: Repository<Company>,
-    @InjectRepository(Notification)
-    private readonly notificationRepository: Repository<Notification>,
     private readonly dataSource: DataSource,
     private readonly mailService: MailService,
   ) {}

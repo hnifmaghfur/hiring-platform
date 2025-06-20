@@ -7,6 +7,7 @@ export class CreateInterviewDto {
     type: String,
   })
   @IsString()
+  @IsOptional()
   company_id: string;
 
   @ApiPropertyOptional({
@@ -14,6 +15,7 @@ export class CreateInterviewDto {
     type: String,
   })
   @IsString()
+  @IsOptional()
   job_post_id: string;
 
   @ApiPropertyOptional({
@@ -21,6 +23,7 @@ export class CreateInterviewDto {
     type: String,
   })
   @IsString()
+  @IsOptional()
   candidate_id: string;
 
   @ApiPropertyOptional({

@@ -37,7 +37,9 @@ This structure:
 - **Logging**: Logs are sent to Grafana Loki for observability and monitoring, using the `@grafana/loki` package.
 - **Redis**: Caching for improved performance and session management.
 - **Swagger**: API documentation for easy testing and exploration.
-- **TypeORM**: ORM for database interactions, with support for migrations and custom queries.
+- **Transactional Queries**: Supports atomic database operations using TypeORM's transactional query runner.
+- **Database Indexing**: Automatic indexing for improved query performance.
+
 
 ---
 
@@ -78,7 +80,7 @@ npm run typeorm migration:run
 ```
 
 ### API Docs
-Visit `http://localhost:3000/api` for Swagger documentation after starting the server.
+Visit `http://localhost:3000/api/docs` for Swagger documentation after starting the server.
 
 ---
 

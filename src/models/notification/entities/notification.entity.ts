@@ -36,7 +36,7 @@ export class Notification {
   @Column()
   type: string;
 
-  @Column()
+  @Column({ default: false })
   read: boolean;
 
   @CreateDateColumn()

@@ -72,6 +72,8 @@ export class JobPostService {
 
       const pageNum = Number(page);
       const limitNum = Number(limit);
+      const minSalaryNum = Number(minSalary);
+      const maxSalaryNum = Number(maxSalary);
 
       if (isNaN(pageNum) || isNaN(limitNum) || pageNum < 1 || limitNum < 1) {
         throw new Error('page and limit must be numbers and greater than 0');
@@ -95,11 +97,15 @@ export class JobPostService {
       }
 
       if (minSalary !== undefined) {
-        queryBuilder.andWhere('jobPost.salary >= :minSalary', { minSalary });
+        queryBuilder.andWhere('jobPost.salary >= :minSalary', {
+          minSalary: minSalaryNum,
+        });
       }
 
       if (maxSalary !== undefined) {
-        queryBuilder.andWhere('jobPost.salary <= :maxSalary', { maxSalary });
+        queryBuilder.andWhere('jobPost.salary <= :maxSalary', {
+          maxSalary: maxSalaryNum,
+        });
       }
 
       if (companyId) {
