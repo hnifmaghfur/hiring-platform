@@ -33,6 +33,11 @@ This structure:
 - **Notifications**: Candidates receive in-app notifications and email updates.
 - **Cron Jobs**: Automated job post expiry based on set dates.
 - **Clean API**: RESTful endpoints, DTO validation, and Swagger documentation.
+- **File Upload**: Supports file uploads for resumes and other documents.
+- **Logging**: Logs are sent to Grafana Loki for observability and monitoring, using the `@grafana/loki` package.
+- **Redis**: Caching for improved performance and session management.
+- **Swagger**: API documentation for easy testing and exploration.
+- **TypeORM**: ORM for database interactions, with support for migrations and custom queries.
 
 ---
 
