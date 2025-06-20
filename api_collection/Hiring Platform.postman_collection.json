@@ -1,0 +1,1019 @@
+{
+	"info": {
+		"_postman_id": "e4c3909e-0369-4dac-8937-9f0b787ad9ef",
+		"name": "Hiring Platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9504542"
+	},
+	"item": [
+		{
+			"name": "candidate",
+			"item": [
+				{
+					"name": "Register Candidate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "hanif",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "hnifmaghfur@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "inipassword",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "081311128324",
+									"type": "text"
+								},
+								{
+									"key": "skill",
+									"value": "backend,nodejs,typescript,golang",
+									"type": "text"
+								},
+								{
+									"key": "resume",
+									"type": "file",
+									"src": "/C:/Users/hnifm/Downloads/G439772177-16-6-2025-Sipamungkas Dev.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/candidate/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"candidate",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login-candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 201){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var refreshToken = pm.cookies.get('refreshToken')\r",
+									"\r",
+									"    pm.collectionVariables.set(\"token_candidate\", jsonData.token);\r",
+									"    pm.collectionVariables.set(\"refreshToken_candidate\", refreshToken)\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"hnifmaghfur@gmail.com\",\r\n    \"password\":\"inipassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/candidate/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"candidate",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login-company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 201){\r",
+									"    var jsonData = pm.response.json();\r",
+									"    var refreshToken = pm.cookies.get('refreshToken')\r",
+									"\r",
+									"    pm.collectionVariables.set(\"token_company\", jsonData.token);\r",
+									"    pm.collectionVariables.set(\"refreshToken_company\", refreshToken)\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"hanif@maghfur.dev\",\r\n    // \"email\":\"industri@maghfurinc.dev\",\r\n    \"password\":\"inicompany\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/company/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"company",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "company",
+			"item": [
+				{
+					"name": "register company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"maghfur inc\",\r\n    \"address\":\"palembang - indonesia\",\r\n    \"email\":\"hanif@maghfur.dev\",\r\n    \"password\":\"inicompany\",\r\n    \"phone\":\"0813146462242\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/company/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"company",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "job-post",
+			"item": [
+				{
+					"name": "add jobpost",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Senior Backend Developer\",\r\n    \"description\":\"mencari senior backend developer dengan pengalaman 5 tahun\",\r\n    \"skill\":\"nodejs,typescript,redis\",\r\n    \"location\": \"onsite\",\r\n    \"expiredDate\":\"2025-08-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/job-post/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"job-post",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit jobpost",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Senior Backend Developer\",\r\n    \"description\":\"mencari senior backend developer dengan pengalaman 10 tahun\",\r\n    \"skill\":\"nodejs,typescript,redis\",\r\n    \"location\": \"onsite\",\r\n    \"salary\":1900000,\r\n    \"expiredDate\":\"2025-09-02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/job-post/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"job-post",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "37e120c4-e4a2-4870-adda-2da289448d69"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find all jobs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Middle Backend Developer\",\r\n    \"description\":\"mencari middle backend developer dengan pengalaman 5 tahun\",\r\n    \"skill\":\"nodejs,typescript,redis,php\",\r\n    \"location\": \"remote\"\r\n}"
+						},
+						"url": {
+							"raw": "{{host}}/job-post/?page=1&limit=10&search=",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"job-post",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "companyId",
+									"value": null,
+									"description": "optional",
+									"disabled": true
+								},
+								{
+									"key": "minSalary",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "maxSalary",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "location",
+									"value": null,
+									"description": "onsite / remote",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find one job",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/job-post/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"job-post",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "37e120c4-e4a2-4870-adda-2da289448d69"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "- implementasi redis cache untuk mengambil data get one job\n    \n- ketika ada update job dan ada cache maka akan di update cache nya"
+		},
+		{
+			"name": "application",
+			"item": [
+				{
+					"name": "create application",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_candidate}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/application/:job-post-id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"application",
+								":job-post-id"
+							],
+							"variable": [
+								{
+									"key": "job-post-id",
+									"value": "7f9022df-a44d-4e1e-ad76-7059a8a7b12e"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "send interview application",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"date\":\"2025-06-29\",\r\n    \"time\":\"14:00\",\r\n    \"link\":\"meeting.online.com\",\r\n    \"notes\":\"prepare your resume before meeting start\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/application/company/interview/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"application",
+								"company",
+								"interview",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "332c58a2-7a5c-4b27-b720-c51307f0fe4e",
+									"description": "application id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find all application",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_candidate}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/application/candidate/?page=1&limit=10&status=",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"application",
+								"candidate",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "",
+									"description": "'pending','interview', 'accepted', 'rejected'"
+								},
+								{
+									"key": "job_post_id",
+									"value": "",
+									"description": "optional",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find all application by company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/application/company/:id?page=1&limit=10&search=",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"application",
+								"company",
+								":id"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": ""
+								},
+								{
+									"key": "job_post_id",
+									"value": "",
+									"description": "optional",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "",
+									"description": "'pending', 'accepted', 'rejected'",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "55e5a22b-ea34-49cb-b92c-26cfdb05b2e1",
+									"description": "job post id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find one application",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/application/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"application",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "37e120c4-e4a2-4870-adda-2da289448d69"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "interview",
+			"item": [
+				{
+					"name": "find all interview by company",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/interview/company?page=1&limit=10&search=",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"interview",
+								"company"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "candidate name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find one interview by company",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_company}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/interview/company/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"interview",
+								"company",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9fbc3c80-cd39-4e5a-83cb-583fbff09fa6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find all interview by candidate",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_candidate}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/interview/candidate?page=1&limit=10&search=",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"interview",
+								"candidate"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "candidate name"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find one interview by company Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_candidate}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/interview/candidate/:id",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"interview",
+								"candidate",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "9fbc3c80-cd39-4e5a-83cb-583fbff09fa6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update result interview",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_candidate}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/interview/company/:id/result/:result",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"interview",
+								"company",
+								":id",
+								"result",
+								":result"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								},
+								{
+									"key": "result",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notification",
+			"item": [
+				{
+					"name": "find All Notification",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_candidate}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/notification?page=1&limit=10",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"notification"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "count unread notification",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_candidate}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host}}/notification/unread",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"notification",
+								"unread"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:3000/api/v1",
+			"type": "string"
+		},
+		{
+			"key": "token_candidate",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token_company",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refreshToken_company",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refreshToken_candidate",
+			"value": ""
+		}
+	]
+}
